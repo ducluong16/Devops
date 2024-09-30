@@ -1,0 +1,28 @@
+version: "3" # Phiên bản của Docker Compose
+
+services: # Các dịch vụ được triển khai
+  ducluong-mysql: # Dịch vụ MySQL
+    image: "mysql:8.0.36-debian" # Sử dụng hình ảnh MySQL phiên bản 8.0.36-debian
+    environment: # Các biến môi trường cho dịch vụ MySQL
+      MYSQL_ROOT_PASSWORD: luong123 # Mật khẩu gốc của MySQL
+      MYSQL_DATABASE: ducluong # Tên cơ sở dữ liệu MySQL
+    volumes: # Các khối lưu trữ cho dịch vụ MySQL
+      - mysql-db:/var/lib/mysql # Sử dụng khối lưu trữ có tên "mysql-db" cho thư mục /var/lib/mysql
+
+  ducluong-app: # Dịch vụ WordPress
+    image: "wordpress:latest" # Sử dụng hình ảnh WordPress mới nhất
+    ports: # Các cổng được mở ra cho dịch vụ WordPress
+      - "8080:80" # Mở cổng 8080 trên máy chủ và chuyển tiếp nó đến cổng 80 của dịch vụ WordPress
+    environment: # Các biến môi trường cho dịch vụ WordPress
+      WORDPRESS_DB_HOST: ducluong-mysql # Địa chỉ host của cơ sở dữ liệu MySQL
+      WORDPRESS_DB_USER: root # Tên người dùng của cơ sở dữ liệu MySQL
+      WORDPRESS_DB_PASSWORD: luong123 # Mật khẩu của cơ sở dữ liệu MySQL
+      WORDPRESS_DB_NAME: ducluong # Tên cơ sở dữ liệu WordPress
+    volumes: # Các khối lưu trữ cho dịch vụ WordPress
+      - wordpress:/var/www/html # Sử dụng khối lưu trữ có tên "wordpress" cho thư mục /var/www/html
+    depends_on: # Các dịch vụ mà dịch vụ WordPress phụ thuộc vào
+      - ducluong-mysql # Dịch vụ MySQL
+
+volumes: # Các khối lưu trữ được sử dụng trong docker-compose.yml
+  mysql-db: # Khối lưu trữ cho dịch vụ MySQL
+  wordpress: # Khối lưu trữ cho dịch vụ WordPress

@@ -1,0 +1,14 @@
+version: "3.8"
+services: # Định nghĩa các dịch vụ sẽ được chạy
+  nginx: # Tên của dịch vụ
+    image: nginx:latest # Sử dụng image nginx phiên bản mới nhất
+    ports: # Định nghĩa các cổng sẽ được ánh xạ
+      - "8080:80" # Ánh xạ cổng 8080 trên máy host tới cổng 80 trên container
+    networks: # Định nghĩa các mạng mà dịch vụ sẽ tham gia
+      - luong # Tham gia vào mạng có tên là 'luong'
+    volumes: # Định nghĩa các volume sẽ được gắn vào container
+      - nginx-data:/usr/share/nginx/html # Gắn volume 'nginx-data' vào thư mục '/usr/share/nginx/html' trong container
+networks: # Định nghĩa các mạng
+  luong: # Tên của mạng
+volumes: # Định nghĩa các volume
+  nginx-data: # Tên của volume
